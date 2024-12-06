@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+  - AWS::Serverless-2016-10-31
+  - AWS::LanguageExtensions
+
+
+Globals:
+  Function:
+    Architectures:
+      - arm64
+    Runtime: python3.12
+    Handler: app.lambda_function.lambda_handler
+    Timeout: 30
+
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    DeletionPolicy: Delete # 古いバージョンを削除
+    Properties:
+      MemorySize: 128
+      CodeUri: src/data
+      # SnapStart用に以下の内容を追加
+      AutoPublishAlias: SnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
+      
